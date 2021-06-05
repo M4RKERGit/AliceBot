@@ -1,0 +1,31 @@
+{
+    "totalUsers":2,
+    "curDate":"Thu May 13 12:02:54 UTC 2021",
+    "userList":
+    [
+        {
+            "username":"Oleg Eeeeevolga",
+            "chatId":123456,
+            "boardsList":
+            [
+                "b", "vg", "zog"
+            ],
+            "tagsList":
+            [
+                "голова", "фап", "соболь"
+            ]
+        },
+        {
+            "username":"Дмитря Лупекин",
+            "chatId":123456,
+            "boardsList":
+            [
+                "b", "bg", "di"
+            ],
+            "tagsList":
+            [
+                "голова", "фап", "соболь"
+            ]
+        }
+    ]
+}
