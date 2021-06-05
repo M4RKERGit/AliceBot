@@ -6,5 +6,3 @@ def getDatabase():
         data = json.load(read_file)
         print(f'Всего юзеров в базе: {data["totalUsers"]}')
         return data
-
-getDatabase()
