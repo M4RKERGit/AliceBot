@@ -55,7 +55,10 @@ class Dvach_Functions(object):
         if not valid:
             print(404, 'Invalid URL')
             return ""
-        thread = self.apilocal.thread(board, thread_id)
+        try:
+            thread = self.apilocal.thread(board, thread_id)
+        except:
+            return ""
         post = thread.posts[0]
         text = ""
         if post.files:

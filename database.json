@@ -1,18 +1,19 @@
 {
-    "totalUsers":1,
-    "curDate":"Thu May 13 12:02:54 UTC 2021",
-    "userList":
-    [
+    "totalUsers": 2,
+    "curDate": "Sun Jun  6 17:20:00 2021",
+    "userList": [
         {
-            "username":"Oleg Eeeeevolga",
-            "chatId":123456,
-            "boardsList":
-            [
-                "b", "vg", "zog"
+            "userName": "Oleg Eeeeevolga",
+            "chatId": 247725614,
+            "boardsList": [
+                "b",
+                "vg",
+                "zog"
             ],
-            "tagsList":
-            [
-                "голова", "фап", "соболь"
+            "tagsList": [
+                "соболь",
+                "голова",
+                "фап"
             ]
         }
     ]
