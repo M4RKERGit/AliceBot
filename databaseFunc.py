@@ -33,7 +33,7 @@ class Database():
         def addBoard(self, recBoard):
             for i in range(0, len(self.boardsList)):
                 if recBoard == self.boardsList[i]:
-                    self.boardsList = self.tagsList.pop(i)
+                    self.boardsList.pop(i)
                     return f'Борда {recBoard} удалена из твоего списка'
             self.boardsList.append(recBoard)
             return f'Борда {recBoard} добавлена в твой список'
@@ -42,9 +42,9 @@ class Database():
         def addTag(self, recTag):
             for i in range(0, len(self.tagsList)):
                 if recTag == self.tagsList[i]:
-                    self.tagsList = self.tagsList.pop(i)
+                    self.tagsList.pop(i)
                     return f'Тег {recTag} удален из твоего списка'
-            self.boardsList.append(recTag)
+            self.tagsList.append(recTag)
             return f'Тег {recTag} добавлен в твой список'
 
 
@@ -65,6 +65,7 @@ class Database():
             print(f'Всего юзеров в базе: {self.database["totalUsers"]}')
         self.totalUsers = self.database["totalUsers"]
         self.curDate = self.database["curDate"]
+        self.userList.clear()
         for i in range(0, len(self.database["userList"])):
             bufUser = self.database["userList"][i]
             self.userList.append(self.User(bufUser["userName"], bufUser["chatId"], bufUser["boardsList"], bufUser["tagsList"]))
@@ -76,8 +77,9 @@ class Database():
             if newUser.chatId == self.userList[i].chatId:
                 return 'Уже зареган'
         self.userList.append(self.User(newUser.userName, newUser.chatId, newUser.boardsList, newUser.tagsList))
-        self.saveBase()
-        return '+1 ПадПищек'
+        res = self.saveBase()
+        if res == 1: return '+1 ПадПищек'
+        return 'Ошибка сохранения профиля, обратитесь к @Miku_Tyan, чтобы разрулить проблему'
 
     def findUser(self, id):
         for i in range(0, len(self.userList)):
@@ -88,17 +90,28 @@ class Database():
     def reloadUser(self, id, ops, target):
         num = self.findUser(id)
         if ops == 'board':
-            self.userList[num].addBoard(target)
+            buf = self.userList[num].addBoard(target)
+            res = self.saveBase()
+            if res == 1: return buf
+            return 'Ошибка сохранения профиля, обратитесь к @Miku_Tyan, чтобы разрулить проблему'
         if ops == 'tag':
-            self.userList[num].addTag(target)
+            buf = self.userList[num].addTag(target)
+            res = self.saveBase()
+            if res == 1: return buf
+            return 'Ошибка сохранения профиля, обратитесь к @Miku_Tyan, чтобы разрулить проблему'
+        
 
     def saveBase(self):
         updTime = time.asctime()
         self.curDate = updTime
         self.totalUsers = len(self.userList)
-        with open('database.json', 'w', encoding='utf-8') as write_file:
-            json.dump(self.compileToModel().dict(), write_file, indent = 4, ensure_ascii = False)
-            print('База обновлена')
+        if len(json.dumps(self.compileToModel().dict(), indent = 4, ensure_ascii = False)) > 0:
+            with open('database.json', 'w', encoding='utf-8') as write_file:
+                json.dump(self.compileToModel().dict(), write_file, indent = 4, ensure_ascii = False)
+                print('База обновлена')
+                return 1
+        else: return 0
+        
 
     def compileToModel(self):
         bufUList = list()

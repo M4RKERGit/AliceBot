@@ -15,6 +15,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['base'])
 def send_welcome(message):
+    database.getDatabase()
     bot.send_message(message.from_user.id, database.convertDBtostr(database.compileToModel()))
 
 
@@ -30,9 +31,13 @@ def answer_all(message):
         newUser = Database.User(message.chat.first_name + ' ' + message.chat.last_name, message.chat.id, ["b"], ["голова"])
         bot.send_message(message.from_user.id, database.addUser(newUser))
     if re.match(r'борда', message.text.lower()):
-        print('void')
+        wordList = message.text.split(' ')
+        for i in range(1, len(wordList)):
+            bot.send_message(message.from_user.id, database.reloadUser(message.chat.id, 'board', wordList[i]))
     if re.match(r'тег', message.text.lower()):
-        print('void')
+        wordList = message.text.split(' ')
+        for i in range(1, len(wordList)):
+            bot.send_message(message.from_user.id, database.reloadUser(message.chat.id, 'tag', wordList[i]))
 
 
 def sendTopByTimer():
@@ -66,6 +71,6 @@ def sendTagByTimer():
     timerTop.start()
 
 
-#sendTopByTimer()
-#sendTagByTimer()
+sendTopByTimer()
+sendTagByTimer()
 bot.polling(none_stop=True)

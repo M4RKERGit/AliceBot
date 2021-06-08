@@ -20,7 +20,7 @@ class Dvach_Functions(object):
         resp = self.apilocal.threads(GOT)
         for t in resp.threads[:3]:
             pics = self.getPic(t.url(GOT))
-            buf = f'Сабж: — {t.subject}\nКоличество постов: {t.posts_count} 💬\nПросмотры: {t.views} 👀\nСсылка на ОП-пост: {t.url(GOT)} ⚡️\nОП-пост: {t.body_text[0:2047]}\n[Конец ОП-поста]'
+            buf = f'Сабж: {t.subject[0:t.subject.find(".")]}\nКоличество постов: {t.posts_count} 💬\nПросмотры: {t.views} 👀\nСсылка на ОП-пост: {t.url(GOT)} ⚡️\nОП-пост: {t.body_text[0:2047]}\n[Конец ОП-поста]'
             construtedFromDvach = (pics + buf)
             cc += 1
             toRet.append(construtedFromDvach)
@@ -63,5 +63,5 @@ class Dvach_Functions(object):
         text = ""
         if post.files:
                text += (post.files[0].url() + "\n")
-        print(text)
+        if len(text) == 0: return "ОП-пик отсутствует"
         return text
