@@ -1,4 +1,4 @@
-import telebot
+﻿import telebot
 import re
 import threading
 from dvachFunc import Dvach_Functions
@@ -11,7 +11,7 @@ database = Database()
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.send_message(message.from_user.id, "Привет, я Алиса - бот, избавляющий тебя от нужды скроллить двач вручную")
+    bot.send_message(message.from_user.id, f"Привет, я Алиса - бот, избавляющий тебя от нужды скроллить двач вручную\n\nМогу выдать тебе топ 3 треда с любой борды - напиши *Топ* + борду(b, zog, vg)\nМожно получить несколько топов за одно сообщение, просто указывай борды через пробел\n⚡️⚡️⚡️\nКроме того, доступна рассылка каждые полчаса по твоим настройкам - напиши *Рассылка*\nПосле этого будет создан твой профиль настроек, который можно посмотреть с помощью команды *Профиль*\n⚡️⚡️⚡️\nБорда + название: добавит или уберёт указанную борду из твоего списка\n⚡️⚡️⚡️\nТег + название: добавит или уберёт указанный тег из твоего списка\n\nПриятного пользования!")
 
 @bot.message_handler(commands=['base'])
 def send_welcome(message):
@@ -30,6 +30,8 @@ def answer_all(message):
     if re.match(r'рассылка', message.text.lower()):
         newUser = Database.User(message.chat.first_name + ' ' + message.chat.last_name, message.chat.id, ["b"], ["голова"])
         bot.send_message(message.from_user.id, database.addUser(newUser))
+    if re.match(r'профиль', message.text.lower()):
+        bot.send_message(message.from_user.id, database.sendProfile(message.chat.id))
     if re.match(r'борда', message.text.lower()):
         wordList = message.text.split(' ')
         for i in range(1, len(wordList)):
@@ -49,7 +51,7 @@ def sendTopByTimer():
             if len(buf) > 0:
                 for k in range(0, len(buf)):
                     bot.send_message(database.userList[i].chatId, buf[k])
-    timerTag = threading.Timer(1800.0, sendTagByTimer)
+    timerTag = threading.Timer(3600.0, sendTagByTimer)
     timerTag.start()
 
 
@@ -67,10 +69,10 @@ def sendTagByTimer():
             if len(buf) > 0:
                 for k in range(0, len(buf)):
                     bot.send_message(database.userList[i].chatId, buf[k])
-    timerTop = threading.Timer(1800.0, sendTopByTimer)
+    timerTop = threading.Timer(3600.0, sendTopByTimer)
     timerTop.start()
 
 
 sendTopByTimer()
-sendTagByTimer()
+#sendTagByTimer()
 bot.polling(none_stop=True)

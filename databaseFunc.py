@@ -100,6 +100,20 @@ class Database():
             if res == 1: return buf
             return 'Ошибка сохранения профиля, обратитесь к @Miku_Tyan, чтобы разрулить проблему'
         
+    def sendProfile(self, id):
+        boards = ''
+        tags = ''
+        num = self.findUser(id)
+        if num == -1:    return 'Ты не подписан на рассылку, профиля не существует'
+        user = self.userList[self.findUser(id)]
+        for i in range(0, len(user.boardsList)):
+            boards += f'{user.boardsList[i]}, '
+        boards = boards.rstrip(', ')
+        for i in range(0, len(user.tagsList)):
+            tags += f'{user.tagsList[i]}, '
+        tags = tags.rstrip(', ')
+        return f'Профиль пользователя {user.userName}:\nID: {user.chatId}\nТвои борды: {boards}\nТвои теги: {tags}'
+        
 
     def saveBase(self):
         updTime = time.asctime()

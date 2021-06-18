@@ -15,8 +15,8 @@ class Dvach_Functions(object):
         construtedFromDvach = ""
         buf = ""
         pics = ""
-        toRet = [""]
-        toRet[0] = f'⚡️⚡️⚡️ТОП ПОСТОВ С ДОСКИ /{GOT.upper()}⚡️⚡️⚡️\n\n'
+        toRet = list()
+        toRet.append(f'⚡️⚡️⚡️ТОП ПОСТОВ С ДОСКИ /{GOT.upper()}⚡️⚡️⚡️\n\n')
         resp = self.apilocal.threads(GOT)
         for t in resp.threads[:3]:
             pics = self.getPic(t.url(GOT))
@@ -29,18 +29,18 @@ class Dvach_Functions(object):
 
 
     def getBoardWithTags(self, board, GOT):
-        toRet = [""]
+        toRet = list()
         tags = ""
         allThreads = ""
         allPics = ""
 
-        toRet[0] = f'\n⚡️⚡️⚡️Доска /{board}⚡️⚡️⚡️'
+        toRet.append(f'\n⚡️⚡️⚡️Доска /{board}⚡️⚡️⚡️')
 
         resp = self.apilocal.threads(board)
         for t in resp.threads[:len(resp.threads)]:
             for i in range(0, len(GOT)):
                 if re.search(GOT[i].lower(), t.body.lower()):
-                    allPics = self.getPic(t.url(GOT))
+                    allPics = self.getPic(t.url(board))
                     allThreads = f'Сабж: — {t.subject}\nКоличество постов: {t.posts_count} 💬\nПросмотры: {t.views} 👀\nСсылка на ОП-пост: {t.url(board)} ⚡️\nОП-пост: {t.body_text[0:2047]}\n[Конец ОП-поста]'
                     toRet.append(allPics + allThreads)
         if len(allThreads) == 0:
