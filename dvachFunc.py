@@ -9,7 +9,6 @@ class Dvach_Functions(object):
     def __init__(self):
         self.apilocal = api2ch.Api2ch()
 
-
     def getBoardTop(self, GOT):
         cc = 0
         construtedFromDvach = ""
@@ -24,7 +23,6 @@ class Dvach_Functions(object):
             construtedFromDvach = (pics + buf)
             cc += 1
             toRet.append(construtedFromDvach)
-        print(toRet)
         return toRet
 
 
@@ -46,7 +44,6 @@ class Dvach_Functions(object):
         if len(allThreads) == 0:
             toRet.append(f'\nНа борде /{board} не найдено тредов по твоим тегам')
             return toRet
-        print(toRet)
         return toRet
 
 
@@ -62,6 +59,6 @@ class Dvach_Functions(object):
         post = thread.posts[0]
         text = ""
         if post.files:
-               text += (post.files[0].url() + "\n")
+                text += (post.files[0].url() + "\n")
         if len(text) == 0: return "ОП-пик отсутствует"
         return text

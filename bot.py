@@ -4,7 +4,8 @@ import threading
 from dvachFunc import Dvach_Functions
 from databaseFunc import Database
 
-bot = telebot.TeleBot('TOKEN')
+#bot = telebot.TeleBot('1680017281:AAE-LqGo8fgDb1hR9KTjz9fdaVxT1athJwE')
+bot = telebot.TeleBot('1883639644:AAFdX5EUYHdSYpYaQIEb75OeVM8nlenXP6Y')
 api = Dvach_Functions()
 database = Database()
 
